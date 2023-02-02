@@ -11,19 +11,10 @@ type Cache struct {
     data map[string][]byte
 }
 
-func NewCache() *Cache {
+func New() *Cache {
     return &Cache{
         data: make(map[string][]byte),
     }
-}
-
-func (c *Cache) Delete(key []byte) error {
-    c.lock.Lock()
-    defer c.lock.Unlock()
-
-    delete(c.data, string(key))
-
-    return nil
 }
 
 func (c *Cache) Set(key, value []byte, ttl time.Duration) error {
@@ -55,3 +46,14 @@ func (c *Cache) Get(key []byte) ([]byte, error)  {
 
     return val, nil
 }
+
+func (c *Cache) Delete(key []byte) error {
+    c.lock.Lock()
+    defer c.lock.Unlock()
+
+    delete(c.data, string(key))
+
+    return nil
+}
+
+
